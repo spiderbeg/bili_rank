@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>datatables</title>
+        <!-- Required meta tags -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">  
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/1.10.15/css/jquery.dataTables.css">
+    <!-- jQuery -->
+    <script type="text/javascript" charset="utf8" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+     
+    <!-- DataTables -->
+    <script type="text/javascript" charset="utf8" src="http://cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
+
+</head>
+<body>
+
+    <div style="width:720px;  margin:auto;">
+        <h2>哔哩哔哩 UP 主粉丝 TOP 100 榜单</h2>
+        <!-- 未使用 django 自带的表单 -->
+        <div style="padding: 5px 5px 5px;">
+            <form action="/bili_rank/submits/" method="POST" id="urlform" onsubmit="return checkForm()" class="bs-example bs-example-form" role="form">
+                {% csrf_token %}
+                <div class="input-group">
+                    <input maxlength="120" name="url" type="text" class="form-control" placeholder="请输入UP主 主页链接, 告诉我们" style="display:none" id='inpu'> 
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" onclick="inbutton()" id='onebu'>
+                            前100的up主不在榜单里？
+                        </button>
+                        <button class="btn btn-default" type="submit" value="Submit" style="display:none" id='bugo'>
+                            Go!
+                        </button>
+                    </span>
+                </div>
+            </form>
+        </div>
+        <!--第二步：添加如下 HTML 代码<-->
+        <table id="table_id_example" class="display">
+            <thead>
+                <tr>
+                    <th>排名</th>
+                    <th>UP 主</th>
+                    <th>粉丝</th>
+                    <th>粉丝变化</th>
+                    <th>排名情况</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if users %}
+                <ul>
+                    {% for user in users %}
+                        <tr>
+                            <td >{{user.rank}}</td>
+                            <td>{{user.name}}</td>
+                            <td>{{user.follower_count}}</td>
+                            <!--粉丝变化-->
+                            {% if user.addfollower == -10000000 %}
+                              <td><span class="glyphicon glyphicon-star" aria-hidden="true" style="color:blue"></span>新上榜 </td>
+                            {% elif user.addfollower > 0 %}
+                              <td><span class="glyphicon glyphicon-arrow-up" aria-hidden="true" style="color:green"></span> {{user.addfollower}}</td>
+                            {% elif user.addfollower == 0 %}
+                              <td>{{user.addfollower}}</td>
+                            {% elif user.addfollower < 0 %}
+                              <td><span class="glyphicon glyphicon-arrow-down" aria-hidden="true" style="color:red"></span> {{user.addfollower}}</td>
+                            {% endif %} 
+                            <!--排名变化-->
+                            {% if user.lastrank == -200 %}
+                              <td><span class="glyphicon glyphicon-star" aria-hidden="true" style="color:blue"></span> 新上榜</td>
+                            {% elif user.lastrank > 0 %}
+                              <td><span class="glyphicon glyphicon-arrow-up" aria-hidden="true" style="color:green"></span>{{user.lastrank}} </td>
+                            {% elif user.lastrank == 0 %}
+                              <td>{{user.lastrank}}</td>
+                            {% elif user.lastrank < 0 %}
+                              <td><span class="glyphicon glyphicon-arrow-down" aria-hidden="true" style="color:red"></span>{{user.lastrank}} </td>
+                            {% endif %}    
+                        </tr>
+                    {% endfor %}
+                </ul>
+
+                {% else %}
+                    <p>~~~~我要休息一会儿~~~.</p>
+                {% endif %}
+
+            </tbody>
+        </table>
+     
+    <!--第三步：初始化Datatables-->
+        <script>
+            $(document).ready( function () {
+                $('#table_id_example').DataTable();
+            } );
+        </script>
+    <!--自定义函数-->
+    <!--显示输入框函数-->
+        <script> 
+            function inbutton(){
+                document.getElementById("inpu").setAttribute("style", "color:black;");
+                document.getElementById("bugo").setAttribute("style", ";");
+                document.getElementById("onebu").setAttribute("style", "display:none;");
+            }
+        </script>
+        <script> 
+            function checkForm(){
+                var urlform = document.getElementById("urlform");
+                var url = document.getElementById("inpu");
+                if (url.value === null || url.value === ""){
+                    alert('请输入UP主主页链接');
+                    return false;}
+                else{
+                    alert('感谢您的提交！');
+                    return true;}     
+            }
+        </script>
+    </div>
+
+</body>
+</html>

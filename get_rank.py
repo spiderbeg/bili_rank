@@ -7,27 +7,27 @@ import copy
 import os 
 import sys
 import django
-from django.utils import timezone
 import logging
 logging.basicConfig(filename='rank.log', filemode='w', level=logging.DEBUG)
 
 # 将django项目根目录加入环境变量 # 当在 django 文件夹下时，就已经有了 python 的环境变量。不在 django 文件夹下使用这句
 # sys.path.extend([r'E:\CS\CS_Projects\pythonv\Web_Projects\rank',])# python 的环境变量 # 
 #引入django配置文件
-os.environ.setdefault("DJANGO_SETTINGS_MODULE","rank.settings") # 系统 的环境变量
+os.environ.setdefault("DJANGO_SETTINGS_MODULE","rank.settings-server") # 系统 的环境变量
 django.setup()#项目外启动Django
 
 from bili_rank import models#启动项目后导入模块------------------------------
 
 def get_new(send_count):
     '''获取新的排名'''
-    allid = {1,}
+    allid, qiid = {1,}, {1,}
     headers = {
         'Referer': 'https://www.bilibili.com/',
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
     }
     for i,s in enumerate(send_count):
-        allid.add(s[0])  # 0 爬取去重使用
+        allid.add(s[0])  # 0 更新去重使用
+        qiid.add(s[0]) # 爬取去重使用
         # 1、粉丝数更新
         urlm = 'https://api.bilibili.com/x/relation/stat?vmid=' + str(s[0]) + '&jsonp=jsonp' 
         try:
@@ -59,7 +59,9 @@ def get_new(send_count):
                 else:
                     break
                 for i2,u in enumerate(res['data']['list']): 
-                    # allid.add(u['mid'])
+                    if u['mid'] in qiid:
+                        continue
+                    qiid.add(u['mid']) # 爬取去重
                     # 2、粉丝数
                     url2 = 'https://api.bilibili.com/x/relation/stat?vmid=' + str(u['mid']) + '&jsonp=jsonp'
                     try:
@@ -89,7 +91,7 @@ def get_new(send_count):
     return newz
 
 # 1、更新排名数据
-al = models.User_info.objects.order_by('-follower_count')[:100]
+al = models.User_info.objects.order_by('-lastmodify','-follower_count')[:100]
 oldz = {}
 for a in al:
     oldz[int(a.uid)] = [a.follower_count,a.name,a.rank] # 旧的排名
@@ -118,7 +120,4 @@ for i in newz:
         
 logging.debug('最后储存的排名情况%s', usez)
 for z in usez:
-    obj, created = models.User_info.objects.update_or_create(
-        uid=z, name=usez[z][1], # get
-        defaults={'follower_count':usez[z][0], 'rank':usez[z][2], 'addfollower':usez[z][3], 'lastrank':usez[z][4], 'lastmodify':timezone.now}, # update
-    )
+    obj = models.User_info.objects.create(uid=z, name=usez[z][1], follower_count=usez[z][0], rank=usez[z][2], addfollower=usez[z][3], lastrank=usez[z][4]) # update

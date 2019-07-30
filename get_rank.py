@@ -111,8 +111,8 @@ logging.debug('新的排名情况%s', newz)
 usez = copy.deepcopy(newz)
 for i in newz:
     if i in oldz: # 新上榜已默认值为准,模型中设置为 字符串
-        cfollower = newz[i][0] if oldz[i][0] == -10000000 else newz[i][0] - oldz[i][0]
-        crank = newz[i][2] if oldz[i][2] == -200 else newz[i][2] - oldz[i][2]
+        cfollower = newz[i][0] if oldz[i][0] == -10000000 else newz[i][0] - oldz[i][0] # 正数粉丝增加
+        crank = newz[i][2] if oldz[i][2] == -200 else oldz[i][2] - newz[i][2] # 正数排名上升
     else:
         cfollower = -10000000
         crank = -200

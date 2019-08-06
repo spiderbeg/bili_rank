@@ -30,7 +30,7 @@ def updatedata(send_count):
         used.add(i[0]) # 前 100 uid
         url = 'https://www.zhihu.com/people/'+ i[0] + '/activities'
         r = requests.get(url, headers={'user-agent':'chrome'})
-        time.sleep(2.5)
+        time.sleep(3)
         soup = BeautifulSoup(r.text)
         res6 = soup.find_all(id='js-initialData')[0]
         total = json.loads(res6.string) # 反序列化为 dict
@@ -59,6 +59,13 @@ def updatedata(send_count):
                 cfollowercount = d['follower_count']
                 if cuid not in used and cfollowercount > send_count[-1][1][0]:
                     used.add(cuid)
+                    # 测试用户是否存在
+                    url3 = 'https://www.zhihu.com/people/' + cuid + '/activities'
+                    r = requests.get(url3, headers={'user-agent':'chrome'})
+                    time.sleep(1)
+                    soup = BeautifulSoup(r.text)
+                    if soup.html.head.title.string == '知乎 - 有问题，上知乎':
+                        continue
                     se = (cuid, [cfollowercount,cname,0])
                     send_count.pop(-1) # 删除最小
                     send_count.append(se) # 添加新元素

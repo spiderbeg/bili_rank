@@ -31,7 +31,10 @@ def updatedata(send_count):
         url = 'https://www.zhihu.com/people/'+ i[0] + '/activities'
         r = requests.get(url, headers={'user-agent':'chrome'})
         time.sleep(3)
-        soup = BeautifulSoup(r.text)
+        soup = BeautifulSoup(r.text, features="lxml")
+        if soup.html.head.title.string == '知乎 - 有问题，上知乎': # 去除失效用户
+            i[1][0] = 200000 # 失效用户粉丝数设为 30000 
+            continue
         res6 = soup.find_all(id='js-initialData')[0]
         total = json.loads(res6.string) # 反序列化为 dict
         user_info = total['initialState']['entities']['users']
@@ -63,7 +66,7 @@ def updatedata(send_count):
                     url3 = 'https://www.zhihu.com/people/' + cuid + '/activities'
                     r = requests.get(url3, headers={'user-agent':'chrome'})
                     time.sleep(1)
-                    soup = BeautifulSoup(r.text)
+                    soup = BeautifulSoup(r.text,features="lxml")
                     if soup.html.head.title.string == '知乎 - 有问题，上知乎':
                         continue
                     se = (cuid, [cfollowercount,cname,0])

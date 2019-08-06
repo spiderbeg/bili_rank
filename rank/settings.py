@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'bili_rank.apps.BiliRankConfig', # 不要忘记，在app的 apps.py 中查找类名，类名中去掉了符号"_"
+    'zhihu_rank.apps.ZhihuRankConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

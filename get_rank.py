@@ -8,7 +8,7 @@ import os
 import sys
 import django
 import logging
-logging.basicConfig(filename='rank.log', filemode='w', level=logging.DEBUG)
+logging.basicConfig(level=logging.DEBUG)
 
 # 将django项目根目录加入环境变量 # 当在 django 文件夹下时，就已经有了 python 的环境变量。不在 django 文件夹下使用这句
 # sys.path.extend([r'E:\CS\CS_Projects\pythonv\Web_Projects\rank',])# python 的环境变量 # 

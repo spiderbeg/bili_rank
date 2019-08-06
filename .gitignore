@@ -9,6 +9,7 @@ settings-server.py
 static/
 uwsgi_params
 /bili_rank/migrations/*_initial.py
+/zhihu_rank/migrations/*_initial.py
 *.log
 *.conf
 *.ini

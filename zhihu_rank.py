@@ -105,8 +105,8 @@ logging.debug('返回的 newz 字典%s', newz)
 usez = copy.deepcopy(newz) # 使用的更新字典
 for i in newz:
     if i in oldz: # 新上榜已默认值为准,模型中设置为 字符串
-        cfollower = newz[i][0] if oldz[i][0] == -10000000 else newz[i][0] - oldz[i][0]
-        crank = newz[i][2] if oldz[i][2] == -200 else newz[i][2] - oldz[i][2]
+        cfollower = newz[i][0] if oldz[i][0] == -10000000 else newz[i][0] - oldz[i][0] # 粉丝数增加为正
+        crank = newz[i][2] if oldz[i][2] == -200 else oldz[i][2] - newz[i][2] # 排名增加为负
     else:
         cfollower = -10000000
         crank = -200

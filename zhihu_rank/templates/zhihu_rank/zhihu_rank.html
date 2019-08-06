@@ -71,14 +71,14 @@
                               <td><span class="glyphicon glyphicon-arrow-down" aria-hidden="true" style="color:red"></span> {{user.followerchange}}</td>
                             {% endif %} 
                             <!--排名变化-->
-                            {% if user.rank == -200 %}
+                            {% if user.rankchange == -200 %}
                               <td><span class="glyphicon glyphicon-star" aria-hidden="true" style="color:blue"></span> 新上榜</td>
-                            {% elif user.rank > 0 %}
-                              <td><span class="glyphicon glyphicon-arrow-up" aria-hidden="true" style="color:green"></span>{{user.rank}} </td>
-                            {% elif user.rank == 0 %}
-                              <td>{{user.rank}}</td>
-                            {% elif user.rank < 0 %}
-                              <td><span class="glyphicon glyphicon-arrow-down" aria-hidden="true" style="color:red"></span>{{user.rank}} </td>
+                            {% elif user.rankchange > 0 %}
+                              <td><span class="glyphicon glyphicon-arrow-up" aria-hidden="true" style="color:green"></span>{{user.rankchange}} </td>
+                            {% elif user.rankchange == 0 %}
+                              <td>{{user.rankchange}}</td>
+                            {% elif user.rankchange < 0 %}
+                              <td><span class="glyphicon glyphicon-arrow-down" aria-hidden="true" style="color:red"></span>{{user.rankchange}} </td>
                             {% endif %}    
                         </tr>
                     {% endfor %}

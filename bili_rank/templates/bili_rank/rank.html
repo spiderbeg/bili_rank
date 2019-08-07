@@ -62,13 +62,13 @@
                             <td>{{user.follower_count}}</td>
                             <!--粉丝变化-->
                             {% if user.addfollower == -10000000 %}
-                              <td><span class="glyphicon glyphicon-star" aria-hidden="true" style="color:blue"></span>新上榜 </td>
+                              <td><span style="display:none;">0</span> <span class="glyphicon glyphicon-star" aria-hidden="true" style="color:blue"></span>新上榜 </td>
                             {% elif user.addfollower > 0 %}
-                              <td><span class="glyphicon glyphicon-arrow-up" aria-hidden="true" style="color:green"></span> {{user.addfollower}}</td>
+                              <td><span style="display:none;">{{user.addfollower}}</span> <span class="glyphicon glyphicon-arrow-up" aria-hidden="true" style="color:green"></span> {{user.addfollower}}</td>
                             {% elif user.addfollower == 0 %}
                               <td>{{user.addfollower}}</td>
                             {% elif user.addfollower < 0 %}
-                              <td><span class="glyphicon glyphicon-arrow-down" aria-hidden="true" style="color:red"></span> {{user.addfollower}}</td>
+                              <td><span style="display:none;">{{user.addfollower}}</span> <span class="glyphicon glyphicon-arrow-down" aria-hidden="true" style="color:red"></span> {{user.addfollower}}</td>
                             {% endif %} 
                             <!--排名变化-->
                             {% if user.lastrank == -200 %}
@@ -90,11 +90,19 @@
 
             </tbody>
         </table>
-     
+
     <!--第三步：初始化Datatables-->
         <script>
             $(document).ready( function () {
-                $('#table_id_example').DataTable();
+                $('#table_id_example').DataTable({
+                      "columns": [
+                        null,
+                        { "orderable": false },
+                        null,
+                        { "orderable": false },
+                        { "orderable": false },
+                      ]
+                    });
             } );
         </script>
     <!--自定义函数-->

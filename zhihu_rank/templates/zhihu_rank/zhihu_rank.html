@@ -94,8 +94,17 @@
     <!--第三步：初始化Datatables-->
         <script>
             $(document).ready( function () {
-                $('#table_id_example').DataTable();
-            } );
+                $('#table_id_example').DataTable({
+                      "columns": [
+                        null,
+                        { "orderable": false },
+                        null,
+                        { "orderable": false },
+                        { "orderable": false },
+                      ]
+                    });
+            }
+                    );
         </script>
     <!--自定义函数-->
     <!--显示输入框函数-->

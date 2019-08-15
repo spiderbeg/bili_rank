@@ -18,7 +18,7 @@
 * pymysql
 * django
 ## 如何跑起来
-1. 这里展示本地如何跑起来，确定好放置项目位置
+1. 这里展示**本地**如何跑起来，确定好放置项目位置
 
         git clone https://github.com/spiderbeg/bili_rank.git
 2. 打开控制台，进入与 **manage.py 同级目录**，注意这里需要自己先在 **rank/settings.py**文件中配置一下MySQL，注意**数据库名，用户名，密码**要使用自己的。并且在MySQL中创建数据库；
@@ -93,6 +93,7 @@
       os.environ.setdefault("DJANGO_SETTINGS_MODULE","rank.settings-server") # 系统 的环境变量
       django.setup()# 启动 Django
       from zhihu_rank import models # 启动项目后导入模块，就可以正常调用 queryset 存取数据了
+* 服务器部署推荐 <https://uwsgi-docs-zh.readthedocs.io/zh_CN/latest/tutorials/Django_and_nginx.html>，简单易用。
       
    
 

@@ -59,7 +59,7 @@
                     {% for user in users %}
                         <tr>
                             <td >{{user.rank}}</td>
-                            <td>{{user.user.name}}</td>
+                            <td><a href="https://www.zhihu.com/people/{{user.user.uid}}/activities" target="view_window">{{user.user.name}}</a></td>
                             <td>{{user.followerCount}}</td>
                             <!--粉丝变化-->
                             {% if user.followerchange == -10000000 %}
@@ -123,10 +123,17 @@
                 if (url.value === null || url.value === ""){
                     alert('请输入知乎用户主页链接');
                     return false;}
-                else{
+                else {
+                    var res = url.value.match(/www\.zhihu\.com\/(people|org)\/(.+)\/activities/);
+                    if ( res===null ){
+                        alert('请输入知乎用户主页链接');
+                        return false;
+                    }
+                    console.log(res[1]);
                     alert('感谢您的提交！');
-                    return true;}     
-            } 
+                    return true;
+                }
+            }     
         </script>
         <p>获取源码及详细文档请在公众号（Crossin的编程教室）中回复关键字 <span style="font-weight: bold;">排行</span></p>
     </div>

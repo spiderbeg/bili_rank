@@ -6,6 +6,7 @@
         <!-- Required meta tags -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     {% load static %}
+    <link href ="favicon.ico" rel="shortcut icon">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">  
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
@@ -59,7 +60,7 @@
                     {% for user in users %}
                         <tr>
                             <td >{{user.rank}}</td>
-                            <td>{{user.name}}</td>
+                            <td><a href="https://space.bilibili.com/{{uid}}" target="view_window">{{user.name}}</a></td>
                             <td>{{user.follower_count}}</td>
                             <!--粉丝变化-->
                             {% if user.addfollower == -10000000 %}
@@ -121,11 +122,19 @@
                 var url = document.getElementById("inpu");
                 if (url.value === null || url.value === ""){
                     alert('请输入UP主主页链接');
-                    return false;}
-                else{
+                    return false;
+                }
+                else {
+                    var res = url.value.match(/space\.bilibili\.com\/(\d+)/);
+                    if ( res===null ){
+                        alert('请输入UP主主页链接');
+                        return false;
+                    }
+                    console.log(res[1]);
                     alert('感谢您的提交！');
-                    return true;}     
-            }
+                    return true;
+                }
+            }     
         </script>
         <p>获取源码及详细文档请在公众号（Crossin的编程教室）中回复关键字 <span style="font-weight: bold;">排行</span></p>
     </div>

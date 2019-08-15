@@ -17,8 +17,28 @@
 * pymongo
 * pymysql
 * django
-## 详细流程
+## 如何跑起来
+1. 这里展示本地如何跑起来，确定好放置项目位置
 
+        git clone https://github.com/spiderbeg/bili_rank.git
+2. 打开控制台，进入与 manage.py 同级目录
+        
+        python manage.py migrate # 为应用创建数据表
+3. 将初始各站粉丝数前 100 用户数据导入 MySQL 数据库, 文件名 bili_rakn.sql 及 zhihu.sql
+
+        # root：用户名，bili：数据库名，database.sql：数据库文件名(文件名 bili_rakn.sql 及 zhihu.sql)
+        mysql -u root -p -d bili < database.sql
+4. 开始运行排行项目, 进入 manage.py 同级项目
+        
+        # 打开浏览器输入 http://127.0.0.1:8000/bili_rank/ 就可以查看网页了
+        python manage.py runserver
+5. 数据定时更新
+* 在 linux 中操作参照：<https://linuxtools-rst.readthedocs.io/zh_CN/latest/tool/crontab.html>
+
+        # 每周六，13点20运行
+        20 13 * * 6 你的命令
+* Windows 中使用计划任务参考文章<https://mp.weixin.qq.com/s/JKFvnmtlEqaE8GxbX6Fpyw>。
+        
 ## 文件说明
 * 整个文件为 Django 项目文件
 ### bili_rank 及 zhihu_rank
@@ -36,6 +56,30 @@
 * **zhihu_rank.py** 知乎粉丝数排名的更新文件。
 ### bili_rakn.sql 及 zhihu.sql
 * bili_rakn.sql 及 zhihu.sql 分别为从数据库中导出的各站排名初始数据。
-## 一些建议
+## 一些建议及说明
+* 如何安装 git 见 <https://mp.weixin.qq.com/mp/appmsg/show?__biz=MjM5MDEyMDk4Mw==&appmsgid=10000361&itemidx=1&sign=f88b420f70c30c106697f54f00cf2a95>。
 * django 是一个大型框架，学习周期相对长一些，但是 django 优点之一就是网上的资料很齐全。这里推荐两个入门教程,官方入门<https://docs.djangoproject.com/zh-hans/2.2/intro/tutorial01/>，django girl<https://tutorial.djangogirls.org/zh/>。
-* scrapy 是一个优秀的数据爬取框架，
+* 关于 django 项目 **除get_rank.py、zhihu_rank.py、bili_rakn.sql 及 zhihu.sql** 的详细说明可参考提供的 django 教程第一个链接。 
+* scrapy 是一个优秀的数据爬取框架，官方新手教程 <https://scrapy-chs.readthedocs.io/zh_CN/1.0/intro/tutorial.html>。
+* 前端使用的 Datatables ，简单使用参考这里就行了 <https://datatables.club/manual/install.html>。 
+* MongoDB 安装：<http://mongoing.com/archives/25650> ；使用：<https://juejin.im/post/5addbd0e518825671f2f62ee>。
+* Linux 中 crontab 使用 <https://linuxtools-rst.readthedocs.io/zh_CN/latest/tool/crontab.html>。里面有具体的使用实例。
+      
+      # 每小时的第3和第15分钟执行
+      3,15 * * * * myCommand 
+* Windows 中使用计划任务，使用方法参考文章<https://mp.weixin.qq.com/s/JKFvnmtlEqaE8GxbX6Fpyw>。
+      
+* 关于 get_rank.py 及 zhihu_rank.py 放置在 **django 项目文件夹内**，调用 django queryset 的办法；
+    
+      import os 
+      import sys
+      import django
+      # 引入django配置文件
+      os.environ.setdefault("DJANGO_SETTINGS_MODULE","rank.settings-server") # 系统 的环境变量
+      django.setup()# 启动 Django
+      from zhihu_rank import models # 启动项目后导入模块，就可以正常调用 queryset 存取数据了
+      
+   
+
+
+

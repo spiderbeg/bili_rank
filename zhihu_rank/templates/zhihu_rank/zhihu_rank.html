@@ -5,7 +5,7 @@
     <title>Zhihu_rank</title>
         <!-- Required meta tags -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    {% load static %}
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">  
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
@@ -27,7 +27,7 @@
         <p><a href="http://rank.python666.cn/">哔哩哔哩UP主排行榜<span class="glyphicon glyphicon-arrow-right" aria-hidden="true" style="color:green"></span></a></p>
         <!-- 未使用 django 自带的表单 -->
         <div style="padding: 5px 5px 5px;">
-            <form action="/bili_rank/submits/" method="POST" id="urlform" onsubmit="return checkForm()" class="bs-example bs-example-form" role="form">
+            <form action="/zhihu_rank/submits/" method="POST" id="urlform" onsubmit="return checkForm()" class="bs-example bs-example-form" role="form">
                 {% csrf_token %}
                 <div class="input-group">
                     <input maxlength="120" name="url" type="text" class="form-control" placeholder="请输入知乎大 V 主页链接, 告诉我们" style="display:none" id='inpu'> 
@@ -121,12 +121,12 @@
                 var urlform = document.getElementById("urlform");
                 var url = document.getElementById("inpu");
                 if (url.value === null || url.value === ""){
-                    alert('请输入UP主主页链接');
+                    alert('请输入知乎用户主页链接');
                     return false;}
                 else{
                     alert('感谢您的提交！');
                     return true;}     
-            }
+            } 
         </script>
         <p>获取源码及详细文档请在公众号（Crossin的编程教室）中回复关键字 <span style="font-weight: bold;">排行</span></p>
     </div>

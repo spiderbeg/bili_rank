@@ -1,3 +1,6 @@
+from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponse
+from django.contrib import messages # 弹窗
 from django.shortcuts import render
 
 # Create your views here.
@@ -14,4 +17,4 @@ def save_submit(request):
         url=request.POST['url'], # get
         defaults={'url':request.POST['url']} # update
     )
-    return redirect('zhihu_rank:zhihu_rank')
+    return redirect('zhihu_rank:rank')

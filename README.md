@@ -21,8 +21,23 @@
 1. 这里展示本地如何跑起来，确定好放置项目位置
 
         git clone https://github.com/spiderbeg/bili_rank.git
-2. 打开控制台，进入与 manage.py 同级目录
+2. 打开控制台，进入与 **manage.py 同级目录**，注意这里需要自己先在 **rank/settings.py**文件中配置一下MySQL，注意**数据库名，用户名，密码**要使用自己的。并且在MySQL中创建数据库；
         
+        # 1 settings.py 配置MySQL
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.mysql',
+                'NAME': 'bili', # 数据库名
+                'USER': 'root', # 用户名
+                'PASSWORD': 'pythonbegin1', # 密码
+                'HOST': 'localhost',
+                'PORT': '3306',
+                'OPTIONS':{
+                'charset':'utf8mb4',
+                }
+            }
+        }
+        # 2 命令行中执行
         python manage.py migrate # 为应用创建数据表
 3. 将初始各站粉丝数前 100 用户数据导入 MySQL 数据库, 文件名 bili_rakn.sql 及 zhihu.sql
 
